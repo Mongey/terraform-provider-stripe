@@ -21,6 +21,17 @@ const (
 	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
 )
 
+// ChargePaymentMethodDetailsCardPresentReceiptAccountType indicates the type of account backing a card present transaction.
+type ChargePaymentMethodDetailsCardPresentReceiptAccountType string
+
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureResult can take.
+const (
+	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeChecking ChargePaymentMethodDetailsCardPresentReceiptAccountType = "checking"
+	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeCredit   ChargePaymentMethodDetailsCardPresentReceiptAccountType = "credit"
+	ChargePaymentMethodDetailsCardPresentReceiptAccountTypePrepaid  ChargePaymentMethodDetailsCardPresentReceiptAccountType = "prepaid"
+	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  ChargePaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
+)
+
 // ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow indicates the type of 3D Secure
 // authentication performed.
 type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -232,6 +243,7 @@ type ChargePaymentMethodDetailsAchDebit struct {
 
 // ChargePaymentMethodDetailsAcssDebit represents details about the ACSS Debit PaymentMethod.
 type ChargePaymentMethodDetailsAcssDebit struct {
+	BankName          string `json:"bank_name"`
 	Fingerprint       string `json:"fingerprint"`
 	InstitutionNumber string `json:"institution_number"`
 	Last4             string `json:"last4"`
@@ -379,14 +391,15 @@ type ChargePaymentMethodDetailsCard struct {
 // ChargePaymentMethodDetailsCardPresentReceipt represents details about the receipt on a
 // Card Present PaymentMethod.
 type ChargePaymentMethodDetailsCardPresentReceipt struct {
-	ApplicationCryptogram        string `json:"application_cryptogram"`
-	ApplicationPreferredName     string `json:"application_preferred_name"`
-	AuthorizationCode            string `json:"authorization_code"`
-	AuthorizationResponseCode    string `json:"authorization_response_code"`
-	CardholderVerificationMethod string `json:"cardholder_verification_method"`
-	DedicatedFileName            string `json:"dedicated_file_name"`
-	TerminalVerificationResults  string `json:"terminal_verification_results"`
-	TransactionStatusInformation string `json:"transaction_status_information"`
+	AccountType                  ChargePaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type"`
+	ApplicationCryptogram        string                                                  `json:"application_cryptogram"`
+	ApplicationPreferredName     string                                                  `json:"application_preferred_name"`
+	AuthorizationCode            string                                                  `json:"authorization_code"`
+	AuthorizationResponseCode    string                                                  `json:"authorization_response_code"`
+	CardholderVerificationMethod string                                                  `json:"cardholder_verification_method"`
+	DedicatedFileName            string                                                  `json:"dedicated_file_name"`
+	TerminalVerificationResults  string                                                  `json:"terminal_verification_results"`
+	TransactionStatusInformation string                                                  `json:"transaction_status_information"`
 }
 
 // ChargePaymentMethodDetailsCardPresent represents details about the Card Present PaymentMethod.

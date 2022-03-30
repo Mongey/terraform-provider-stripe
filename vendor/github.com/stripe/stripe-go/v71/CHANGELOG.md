@@ -1,5 +1,41 @@
 # Changelog
 
+## 71.48.0 - 2020-08-24
+* [#1153](https://github.com/stripe/stripe-go/pull/1153) Add support for `ServiceAgreement` in `AccountTOSAcceptance` on `Account`
+
+## 71.47.0 - 2020-08-19
+* [#1165](https://github.com/stripe/stripe-go/pull/1165) Add support for `ExpiresAt` on `File`
+
+## 71.46.0 - 2020-08-17
+* [#1163](https://github.com/stripe/stripe-go/pull/1163) Add support for `AmountDetails` on Issuing `Authorization` and `Transaction`
+
+## 71.45.0 - 2020-08-13
+* [#1160](https://github.com/stripe/stripe-go/pull/1160) Add support for `BankName` on `ChargePaymentMethodDetailsAcssDebit`
+* [#1156](https://github.com/stripe/stripe-go/pull/1156) Re-enable HTTP/2 on the default HTTP client for Go 1.15+
+
+## 71.44.0 - 2020-08-10
+* [#1148](https://github.com/stripe/stripe-go/pull/1148) Make original list object accessible on iterators
+    * This change is technically breaking in that an exported type, `stripe.Query`, changes from `type Query func(*Params, *form.Values) ([]interface{}, ListMeta, error)` to `type Query func(*Params, *form.Values) ([]interface{}, ListContainer, error)`. We've opted to ship this as a minor version anyway because although exported, `Query` is meant for internal use in other stripe-go packages and the vast majority of users are unlikely to be referencing it. If you are, please refer to the diff in https://github.com/stripe/stripe-go/pull/1148 for how to update callsites accordingly. If you think there is a major use of `Query` that we've likely overlooked, please open an issue.
+
+## 71.43.0 - 2020-08-07
+* [#1154](https://github.com/stripe/stripe-go/pull/1154) Add support for Alipay on `PaymentMethod` and `PaymentIntent`
+
+## 71.42.0 - 2020-08-05
+* [#1150](https://github.com/stripe/stripe-go/pull/1150) Add support for the PromotionCode resource and APIs
+
+## 71.41.0 - 2020-08-04
+* [#1152](https://github.com/stripe/stripe-go/pull/1152) Add support for `AccountType` in `ChargePaymentMethodDetailsCardPresentReceipt`
+
+## 71.40.0 - 2020-07-29
+* [#1136](https://github.com/stripe/stripe-go/pull/1136) Add support for multiple coupons on Billing APIs
+  * Add support for arrays of expandable API resources otherwise returning an array of strings by default
+  * Add custom deserialization to `Discount` to support expansion of the object
+  * Add support for `Id`, `Invoice` and `InvoiceItem` on `Discount`.
+  * Add support for `Discounts` on `Invoice`, `InvoiceItem` and `InvoiceLineItem`
+  * Add support for `DiscountAmounts` on `CreditNote`, `CreditNoteLineItem`, `InvoiceLineItem`
+  * Add support for `TotalDiscountAmounts` on `Invoice`
+  * Add `Object` to `Invoice`, `InvoiceLine`, `Discount` and `Coupon`
+
 ## 71.39.0 - 2020-07-27
 * [#1142](https://github.com/stripe/stripe-go/pull/1142) Bug fix: Copy the JSON data of ephemeral keys to own buffer
 

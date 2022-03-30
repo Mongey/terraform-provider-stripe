@@ -44,7 +44,7 @@ cache:
 env:
   global:
     # If changing this number, please also change it in `testing/testing.go`.
-    - STRIPE_MOCK_VERSION=0.93.0
+    - STRIPE_MOCK_VERSION=0.95.0
 
 go:
   - "1.10.x"
@@ -52,6 +52,7 @@ go:
   - "1.12.x"
   - "1.13.x"
   - "1.14.x"
+  - "1.15.x"
   - tip
 
 language: go

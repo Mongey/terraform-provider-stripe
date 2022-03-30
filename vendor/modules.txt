@@ -195,7 +195,7 @@ github.com/satori/go.uuid
 # github.com/spf13/afero v1.2.1
 github.com/spf13/afero
 github.com/spf13/afero/mem
-# github.com/stripe/stripe-go/v71 v71.39.0
+# github.com/stripe/stripe-go/v71 v71.48.0
 github.com/stripe/stripe-go/v71
 github.com/stripe/stripe-go/v71/account
 github.com/stripe/stripe-go/v71/accountlink
@@ -247,6 +247,7 @@ github.com/stripe/stripe-go/v71/person
 github.com/stripe/stripe-go/v71/plan
 github.com/stripe/stripe-go/v71/price
 github.com/stripe/stripe-go/v71/product
+github.com/stripe/stripe-go/v71/promotioncode
 github.com/stripe/stripe-go/v71/radar/earlyfraudwarning
 github.com/stripe/stripe-go/v71/radar/valuelist
 github.com/stripe/stripe-go/v71/radar/valuelistitem

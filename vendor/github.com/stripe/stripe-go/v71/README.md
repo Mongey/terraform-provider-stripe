@@ -27,6 +27,12 @@ import (
 Run any of the normal `go` commands (`build`/`install`/`test`). The Go
 toolchain will resolve and fetch the stripe-go module automatically.
 
+Alternatively, you can also explicitly `go get` the package into a project:
+
+```
+go get -u github.com/stripe/stripe-go/v71
+```
+
 ## Documentation
 
 For a comprehensive list of examples, check out the [API
@@ -241,6 +247,35 @@ if err := i.Err(); err != nil {
 }
 ```
 
+### Accessing the Last Response
+
+Use `LastResponse` on any `APIResource` to look at the API response that
+generated the current object:
+
+``` go
+coupon, err := coupon.New(...)
+requestID := coupon.LastResponse.RequestID
+```
+
+Similarly, for `List` operations, the last response is available on the list
+object attached to the iterator:
+
+``` go
+it := coupon.List(...)
+for it.Next() {
+    // Last response *NOT* on the individual iterator object
+    it.Coupon().LastResponse // wrong
+
+    // But rather on the list object, also accessible through the iterator
+    requestID := it.CouponList().LastResponse.RequestID
+}
+```
+
+See the definition of [`APIResponse`][apiresponse] for available fields.
+
+Note that where API resources are nested in other API resources, only
+`LastResponse` on the top-level resource is set.
+
 ### Automatic Retries
 
 The library automatically retries requests on intermittent failures like on a
@@ -307,6 +342,33 @@ Some loggers like [Logrus][logrus] and Zap's [SugaredLogger][zapsugaredlogger]
 support this interface out-of-the-box so it's possible to set
 `DefaultLeveledLogger` to a `*logrus.Logger` or `*zap.SugaredLogger` directly.
 For others it may be necessary to write a thin shim layer to support them.
+
+### Expanding Objects
+
+All [expandable objects][expandableobjects] in stripe-go take the form of a
+full resource struct, but unless expansion is requested, only the `ID` field of
+that struct is populated. Expansion is requested by calling `AddExpand` on
+parameter structs. For example:
+
+``` go
+//
+// *Without* expansion
+//
+c, _ := charge.Retrieve("ch_123", nil)
+
+c.Customer.ID    // Only ID is populated
+c.Customer.Name  // All other fields are always empty
+
+//
+// With expansion
+//
+p := &CustomerParams{}
+p.AddExpand("customer")
+c, _ := charge.Retrieve("ch_123", p)
+
+c.Customer.ID    // ID is still available
+c.Customer.Name  // Name is now also available (if it had a value)
+```
 
 ### Writing a Plugin
 
@@ -381,8 +443,10 @@ pull request][pulls].
 
 [api-docs]: https://stripe.com/docs/api/go
 [api-changelog]: https://stripe.com/docs/upgrades
+[apiresponse]: https://godoc.org/github.com/stripe/stripe-go#APIResponse
 [connect]: https://stripe.com/docs/connect/authentication
 [depgomodsupport]: https://github.com/golang/dep/pull/1963
+[expandableobjects]: https://stripe.com/docs/api/expanding_objects
 [godoc]: http://godoc.org/github.com/stripe/stripe-go
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
